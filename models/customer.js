@@ -3,6 +3,7 @@
 const db = require("../db");
 const Reservation = require("./reservation");
 
+/** Customer of the restaurant. */
 
 class Customer {
   constructor({ id, firstName, lastName, phone, notes }) {
@@ -13,6 +14,27 @@ class Customer {
     this.notes = notes;
   }
 
+  /** methods for getting/setting notes (keep as empty string, not NULL) */
+
+  set notes(val) {
+    this._notes = val || "";
+  }
+
+  get notes() {
+    return this._notes;
+  }
+
+  /** methods for getting/setting phone #. */
+
+  set phone(val) {
+    this._phone = val || null;
+  }
+
+  get phone() {
+    return this._phone;
+  }
+
+  /** find all customers. */
 
   static async all() {
     const results = await db.query(
@@ -27,6 +49,7 @@ class Customer {
     return results.rows.map(c => new Customer(c));
   }
 
+  /** get a customer by ID. */
 
   static async get(id) {
     const results = await db.query(
@@ -50,14 +73,43 @@ class Customer {
     return new Customer(customer);
   }
 
+  /** get a customer by their name */
+
+  static async searchCustomer(fullName) {
+    const [firstName, last_name] = fullName.toLowerCase().split(' ');
+
+    const results = await db.query(
+      `SELECT id, 
+         first_name AS "firstName",  
+         last_name AS "lastName", 
+         phone, 
+         notes 
+        FROM customers WHERE LOWER(first_name) = $1 AND LOWER(last_name) = $2`,
+      [firstName, last_name]
+    );
+
+    if(results.rows.length === 0) {
+      const err = new Error(`No such customer: ${fullName}`);
+      err.status = 404;
+      throw err;
+    }
+
+    return new Customer(results.rows[0]);
+  }
+
+  /** property to get full name. */
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  /** get all reservations for this customer. */
 
   async getReservations() {
     return await Reservation.getReservationsForCustomer(this.id);
   }
 
-  get fullName() {
-    return `${this.firstName} ${this.lastName}`;
-  }
+  /** save this customer. */
 
   async save() {
     if (this.id === undefined) {
