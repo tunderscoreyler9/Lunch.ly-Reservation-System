@@ -1,5 +1,5 @@
 function validateForm() {
-  let formInput = document.getElementById("searchInput").value.trim();
+  let formInput = $('#searchInput').val().trim();
   if (formInput == "") {
     alert("Name must be filled out");
     return false;

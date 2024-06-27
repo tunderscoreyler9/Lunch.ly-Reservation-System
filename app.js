@@ -4,9 +4,12 @@ const express = require("express");
 const nunjucks = require("nunjucks");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
+const path = require('path'); // Import path module
 
 const app = express();
-app.use(express.static('static'));
+
+// Serve static files from the "static" directory
+app.use(express.static(path.join(__dirname, 'static')));
 
 // Parse body for urlencoded (non-JSON) data
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,7 +22,6 @@ nunjucks.configure("templates", {
 app.use(routes);
 
 /** 404 handler */
-
 app.use(function(req, res, next) {
   const err = new Error("Not Found");
   err.status = 404;
@@ -29,7 +31,6 @@ app.use(function(req, res, next) {
 });
 
 /** general error handler */
-
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
 

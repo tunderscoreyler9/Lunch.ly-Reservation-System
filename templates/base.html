@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,61 +8,48 @@
   <link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.min.css">
   <title>Lunch.ly {% block title %}{% endblock %}</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="jquery-3.7.1.min.js"></script>
-  <script src="../static/validate.js"></script>
+  <script src="validate.js"></script>
 </head>
+
 <body>
 
-<div class="container-fixed">
+  <div class="container-fixed">
 
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">Lunch.ly</a>
-    <button class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">
-            Customers <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/add/">Add a Customer</a>
-        </li>
-      </ul>
-    </div>
-    <div class="customer-search-form">
-      <form class="d-flex" method="post" action="/search/" onsubmit="return validateForm();">
-        <input class="form-control me-2" id="searchInput" type="search" placeholder="Find a customer..." aria-label="Search" name="name" required>
-        <button class="btn btn-success" type="submit">Search</button>
-      </form> 
-    </div>
-  </nav>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">Lunch.ly</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">
+              Customers <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add/">Add a Customer</a>
+          </li>
+        </ul>
+      </div>
+      <div class="customer-search-form">
+        <form class="d-flex" method="post" action="/search/" onsubmit="return validateForm();">
+          <input class="form-control me-2" id="searchInput" type="search" placeholder="Find a customer..."
+            aria-label="Search" name="name" required>
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
 
-</div>
-<div class="container">
-
-  <div id="content" style="margin-top: 80px">
-    {% block content %}{% endblock %}
   </div>
+  <div class="container">
 
-</div>
+    <div id="content" style="margin-top: 80px">
+      {% block content %}{% endblock %}
+    </div>
 
-<!-- <script>
-  function validateForm() {
-  let formInput = document.getElementById("searchInput").value.trim();
-  if (formInput == "") {
-    alert("Name must be filled out");
-    return false;
-  }
-}
-</script> -->
+  </div>
 </body>
+
 </html>
